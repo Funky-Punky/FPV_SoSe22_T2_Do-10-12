@@ -19,5 +19,5 @@ val exists : 'a option -> bool
 type my_list = Empty | Element of int * my_list
 
 val one_two_five : my_list
-val insert : 'a -> my_list -> my_list
-val insert_sorted : 'a -> my_list -> my_list
+val insert : int -> my_list -> my_list
+val insert_sorted : int -> my_list -> my_list

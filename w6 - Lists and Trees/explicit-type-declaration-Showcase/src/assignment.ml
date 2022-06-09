@@ -43,9 +43,9 @@ let rec find_by_id id db =
   | [] -> []
   | student :: db' -> if student.id = id then [ student ] else find_by_id id db'
 
-let rec find_by_last_name name db =
+let rec find_by_last_name name db : database =
   match db with
   | [] -> []
   | student :: db' ->
-      if student.last_name = name then [ student ] :: find_by_last_name name db'
+      if student.last_name = name then  student  :: find_by_last_name name db'
       else find_by_last_name name db'

@@ -19,6 +19,19 @@ let (), () =
 
 let divide a b = try a / b with Division_by_zero -> -1
 let infinity = divide 1 0
+
+
+exception Invalid_Age of string
+
+let age_of_string s =
+  let i =
+    try int_of_string s
+    with Failure _ -> raise (Invalid_Age "String is not an Integer")
+  in
+  if i < 0 then raise (Invalid_Age "Age cant be smaller than Zero")
+  else if i > 900 then raise (Invalid_Age "No one can be that old")
+  else i
+
 let failwith msg = raise (Failure msg)
 
 (* Unit Chaining *)
@@ -53,12 +66,11 @@ let () = List.iter (fun x -> print_endline (string_of_int x)) [ 1; 2; 3; 4 ]
 
 
   Writing:
-    output_string : out_channel -> unit
+    output_string : out_channel -> string -> unit
 
   Reading:
     input_line : in_channel -> string
     String.split_on_char : char -> string -> string list
-
 *)
 
 (* Writing Integer Lists *)
@@ -87,6 +99,6 @@ let load_int_list filename =
     let db = read_int_list_from_channel channel in
     close_in channel;
     db
-  with Failure msg ->
+  with exn ->
     close_in channel;
-    raise (Failure msg)
+    raise exn

@@ -45,7 +45,7 @@ module IntCollection = ComparingCollection (IntComparable)
 
 
 module type Module = sig
-  val foo : int -> int
+  val foo : t -> int
   type t
 end
 
@@ -53,7 +53,7 @@ end
 
 interface Module {
   int foo(int i);
-} 
+}
 
 
 *)
@@ -70,7 +70,9 @@ interface Module {
 *)
 
 (*
-   module Foo : Bar = struct
+   module Foo : Bar
+  with type t = int
+   = struct
     type t = int
    end
 
@@ -80,6 +82,7 @@ interface Module {
 
    }
 *)
+
 (*
    module Foo(F : Bar) = struct
    end
@@ -118,4 +121,5 @@ module type Module = sig
   include Bar
 end
 
-module Foo (F : Bar) = struct end
+module Foo (F : Bar) = struct
+end

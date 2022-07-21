@@ -1,0 +1,98 @@
+let rec summa l = match l with [] -> 0
+    | h::t -> h + summa t
+
+let rec sum l acc = match l with [] -> acc
+    | h::t -> sum t (h+acc)
+
+let rec mul i j acc = if i <= 0 then acc
+  else mul (i-1) j (j+acc)
+
+
+
+To prove:
+        mul c (sum l 0) 0 = c * summa l
+
+Generalization:
+(**)     mul c (sum l 0) g = g + (c * summa l)
+
+Proof * by Induction on c
+
+Base: c = 0
+
+            mul 0 (sum l 0) g 
+(mul)       = if 0 <= 0 then g else mul (0-1) (sum l 0) ((sum l 0)+g) 
+(if)        = g
+
+(arith)     = g
+            = g + (0 * summa l)
+
+
+
+
+
+Hypothesis:
+    mul c (sum l 0) g = g + (c * summa l)
+
+Step:
+
+            mul (c+1) (sum l 0) g
+(mul)       = if (c+1) <= 0 then g else mul ((c+1)-1) (sum l 0) ((sum l 0)+g)
+(if)        = mul ((c+1)-1) (sum l 0) ((sum l 0)+g)
+(arith)     = mul c (sum l 0) (g+(sum l 0))
+
+(lemma1)    = mul c (sum l 0) (g+(sum l 0))
+(I.H.)      = mul c (sum l 0) (g + summa l)
+(arith)     = (g + summa l) + (c * summa l)
+            = g + ((c+1) * summa l)
+
+
+Trace Back:
+            mul c (sum l 0) 0
+(**)         = 0 + (c * summa l)
+(arith)     = c * summa l
+
+
+
+
+
+
+
+Lemma 1:
+    sum l 0 = summa l
+
+Generalization:
+(*) sum l g = g + summa l
+
+Proof by Induction on length of l
+
+Base: l = []
+
+            sum [] g
+(sum)       = match [] with [] -> g | h::t -> sum t (h+g)
+(match)     = g
+
+(arith)     = g
+(match)     = g + 0
+(summa)     = g + match [] with [] -> 0 | h::t -> h + summa t
+            = g + summa []
+
+
+Hypotheshis:
+    sum l g = g + summa l
+
+Step: 
+
+            sum x::l g
+(sum)       = match x::l with [] -> g | h::t -> sum t (h+g)
+(match)     = sum l (x+g)
+
+(arith)     = sum l (x+g)
+(I.H.)      = sum l (g+x)
+(match)     = g + x + summa l
+(summa)     = g + match x::l with [] -> 0 | h::t -> h + summa t
+            = g + summa x::l
+
+Trace Back:
+            sum l 0 
+(*)         = 0 + summa l
+(arith)     = summa l
